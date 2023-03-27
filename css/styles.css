@@ -1,0 +1,37 @@
+*{
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+header{
+    text-align: center;
+}
+
+main{
+    width: 80%;
+    margin: 0 auto;
+    border: 1px solid grey;
+}
+
+#new-note-area{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#btn-new{
+    border-radius: 50%;
+    border: 1px solid black;
+    padding:  5px 13px;
+    font-size: 150%;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#btn-new:hover{
+    background-color: lightgrey;
+}
+
+#btn-new:active{
+    background-color: grey;
+}
