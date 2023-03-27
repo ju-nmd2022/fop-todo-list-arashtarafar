@@ -10,7 +10,6 @@ header{
 main{
     width: 80%;
     margin: 0 auto;
-    border: 1px solid grey;
 }
 
 #new-note-area{
@@ -19,7 +18,11 @@ main{
     justify-content: space-evenly;
 }
 
-#btn-new{
+#new-note{
+    border-radius: 5px;
+}
+
+.btn{
     border-radius: 50%;
     border: 1px solid black;
     padding:  5px 13px;
@@ -28,10 +31,21 @@ main{
     transition: 0.3s;
 }
 
-#btn-new:hover{
+.btn:hover{
     background-color: lightgrey;
 }
 
-#btn-new:active{
+.btn:active{
     background-color: grey;
+}
+
+#note-list{
+    width: 90%;
+}
+
+.note{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
