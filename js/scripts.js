@@ -1,15 +1,17 @@
 let notes = [];
 
-// if(localStorage.notes != ""){
-//     notes = localStorage.notes;
-// }
+if(localStorage.notes){
+    notes = JSON.parse(localStorage.notes);
+    refreshList();
+}
 
 document.getElementById("btn-new").addEventListener("click", () => {
     if(document.getElementById("new-note").value != ""){
         notes.push({
             note: document.getElementById("new-note").value,
             done: false
-        });        
+        });
+        localStorage.notes = JSON.stringify(notes);
         refreshList();
     }
 });
@@ -53,11 +55,15 @@ function refreshList(){
                 notes[noteIndex].done = false;
             else
             notes[noteIndex].done = true;
+
+            localStorage.notes = JSON.stringify(notes);
             refreshList();
         });
 
         removeButton.addEventListener("click", function(){
-            notes.splice(this.parentNode.parentNode.id, 1);            
+            notes.splice(this.parentNode.parentNode.id, 1);
+
+            localStorage.notes = JSON.stringify(notes);
             refreshList();
         });
     }
