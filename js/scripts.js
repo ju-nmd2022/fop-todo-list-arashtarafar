@@ -1,19 +1,45 @@
 let notes = [];
 
 document.getElementById("btn-new").addEventListener("click", () => {
-    let newIndex;
-
     if(document.getElementById("new-note").value != ""){
         notes.push({
             note: document.getElementById("new-note").value,
             done: false
         });
-        
-        newIndex = notes.length - 1;
-
-        document.getElementById("note-list").innerHTML +=
-        '<li class="note" id="note-' + newIndex + '"><span class="note-text">' + notes[newIndex].note + '</span><div><span class="btn" id="btn-complete-' + newIndex + '">✔</span><span class="btn" id="btn-remove-' + newIndex + '">x</span></div>';
-
-        document.getElementById("new-note").value = "";
+        refreshList();
     }
 });
+
+function refreshList(){
+    document.getElementById("note-list").innerHTML = "";
+
+    for(let noteIndex in notes){
+        let noteText = notes[noteIndex].note;
+
+        let newNote = document.createElement("li");        
+        let noteContent = document.createElement("span");
+        let buttonWrapper = document.createElement("div");
+        let completeButton = document.createElement("span");        
+        let removeButton = document.createElement("span");
+
+        newNote.classList.add("note");
+        noteContent.innerText = noteText;
+        completeButton.classList.add("btn");
+        completeButton.innerText = "✔";
+        removeButton.classList.add("btn");
+        removeButton.innerText = "x";
+
+        newNote.appendChild(noteContent);
+        buttonWrapper.appendChild(completeButton);
+        buttonWrapper.appendChild(removeButton);
+        newNote.appendChild(buttonWrapper);
+        document.getElementById("note-list").appendChild(newNote);
+
+        document.getElementById("new-note").value = "";
+
+        removeButton.addEventListener("click", function(){
+            this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+            refreshList();
+        });
+    }
+}
