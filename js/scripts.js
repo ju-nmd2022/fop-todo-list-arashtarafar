@@ -1,11 +1,15 @@
 let notes = [];
 
+// if(localStorage.notes != ""){
+//     notes = localStorage.notes;
+// }
+
 document.getElementById("btn-new").addEventListener("click", () => {
     if(document.getElementById("new-note").value != ""){
         notes.push({
             note: document.getElementById("new-note").value,
             done: false
-        });
+        });        
         refreshList();
     }
 });
@@ -23,7 +27,14 @@ function refreshList(){
         let removeButton = document.createElement("span");
 
         newNote.classList.add("note");
+        newNote.setAttribute("id", noteIndex);
         noteContent.innerText = noteText;
+        if(notes[noteIndex].done){
+            noteContent.style.textDecoration = "line-through";
+            completeButton.style.backgroundColor = "yellow";
+        }
+        else
+        completeButton.style.backgroundColor = "lightgreen";
         completeButton.classList.add("btn");
         completeButton.innerText = "✔";
         removeButton.classList.add("btn");
@@ -37,8 +48,16 @@ function refreshList(){
 
         document.getElementById("new-note").value = "";
 
+        completeButton.addEventListener("click", function(){
+            if(notes[noteIndex].done)
+                notes[noteIndex].done = false;
+            else
+            notes[noteIndex].done = true;
+            refreshList();
+        });
+
         removeButton.addEventListener("click", function(){
-            this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+            notes.splice(this.parentNode.parentNode.id, 1);            
             refreshList();
         });
     }
