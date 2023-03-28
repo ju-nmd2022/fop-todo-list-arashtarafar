@@ -6,6 +6,16 @@ if(localStorage.notes){
 }
 
 document.getElementById("btn-new").addEventListener("click", () => {
+    addNote();
+});
+
+document.getElementById("new-note").addEventListener("keypress", (event) => {
+    if(event.code === "Enter"){
+        addNote();
+    }
+});
+
+function addNote(){
     if(document.getElementById("new-note").value != ""){
         notes.push({
             note: document.getElementById("new-note").value,
@@ -14,7 +24,7 @@ document.getElementById("btn-new").addEventListener("click", () => {
         localStorage.notes = JSON.stringify(notes);
         refreshList();
     }
-});
+}
 
 function refreshList(){
     document.getElementById("note-list").innerHTML = "";
