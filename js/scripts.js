@@ -1,29 +1,15 @@
+// UI Handles
+
+const noteInputHandle = document.getElementById("new-note");
+
+// Core Variables
+
 let notes = [];
 
-if(localStorage.notes){
-    notes = JSON.parse(localStorage.notes);
-    refreshList();
-}
+// Core Logic
 
-document.getElementById("btn-new").addEventListener("click", () => {
-    addNote();
-});
-
-document.getElementById("new-note").addEventListener("keypress", (event) => {
-    if(event.code === "Enter"){
-        addNote();
-    }
-});
-
-function addNote(){
-    if(document.getElementById("new-note").value != ""){
-        notes.push({
-            note: document.getElementById("new-note").value,
-            done: false
-        });
-        localStorage.notes = JSON.stringify(notes);
-        refreshList();
-    }
+function saveNotes(){
+    localStorage.notes = JSON.stringify(notes);
 }
 
 function refreshList(){
@@ -58,23 +44,60 @@ function refreshList(){
         newNote.appendChild(buttonWrapper);
         document.getElementById("note-list").appendChild(newNote);
 
-        document.getElementById("new-note").value = "";
+        noteInputHandle.value = "";
 
         completeButton.addEventListener("click", function(){
-            if(notes[noteIndex].done)
-                notes[noteIndex].done = false;
-            else
-            notes[noteIndex].done = true;
-
-            localStorage.notes = JSON.stringify(notes);
-            refreshList();
+            changeNoteState(noteIndex);
         });
 
         removeButton.addEventListener("click", function(){
-            notes.splice(this.parentNode.parentNode.id, 1);
-
-            localStorage.notes = JSON.stringify(notes);
-            refreshList();
+            rewmoveNote(this);
         });
     }
 }
+
+function addNote(){
+    if(noteInputHandle.value != ""){
+        notes.push({
+            note: noteInputHandle.value,
+            done: false
+        });
+        
+        saveNotes();
+        refreshList();
+    }
+}
+
+function changeNoteState(noteID){
+    if(notes[noteID].done)
+        notes[noteID].done = false;
+    else
+    notes[noteID].done = true;
+
+    saveNotes();
+    refreshList();
+}
+
+function rewmoveNote(pressedItem){
+    notes.splice(pressedItem.parentNode.parentNode.id, 1);
+
+    saveNotes();
+    refreshList();
+}
+
+// Event Listeners
+
+if(localStorage.notes){
+    notes = JSON.parse(localStorage.notes);
+    refreshList();
+}
+
+document.getElementById("btn-new").addEventListener("click", () => {
+    addNote();
+});
+
+noteInputHandle.addEventListener("keypress", (event) => {
+    if(event.code === "Enter"){
+        addNote();
+    }
+});
